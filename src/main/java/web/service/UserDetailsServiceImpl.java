@@ -5,14 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.model.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserService {
     @Autowired
     private UserDao userDAO;
 
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
 
-    /*@Override
+    @Override
     @Transactional
     public List<User> allUsers() {
         return userDAO.allUsers();
@@ -57,5 +57,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public User getById(long id) {
         return userDAO.getById(id);
-    }*/
+    }
 }

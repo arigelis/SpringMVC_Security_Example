@@ -6,10 +6,9 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -50,12 +49,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public User getUserByName(String name) {
-        if (!userMap.containsKey(name)) {
+
+        Query result = entityManager.createQuery("from User where name = :name").setParameter("name", name);
+        List<User> usersList = (List<User>) result.getResultList();
+
+        if (!usersList.get(0).getName().equalsIgnoreCase(name)) {
             return null;
         }
 
-        return userMap.get(name);
+
+        usersList.get(0).setRoles(new HashSet<Role>(Arrays.asList(new Role(1L, "user"))));
+        return usersList.get(0);
     }
 }
 

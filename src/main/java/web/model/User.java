@@ -11,7 +11,7 @@ import java.util.Set;
 // UserDetails можно представить, как адаптер между БД пользователей и тем что требуется Spring Security внутри SecurityContextHolder
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_sec")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
