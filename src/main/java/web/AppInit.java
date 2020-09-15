@@ -4,7 +4,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import web.config.RootConfig;
+//import web.config.RootConfig;
 import web.config.SecurityConfig;
 import web.config.WebConfig;
 
@@ -35,19 +35,19 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new String[]{"/"};
     }
 
-
-    @Override
-    public void onStartup(ServletContext sc) {
-
-        AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-//        root.register(RootConfig.class);
-        root.register(SecurityConfig.class);
-        root.register(WebConfig.class);
-
-        sc.addListener(new ContextLoaderListener(root));
-//        sc.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+//
+//    @Override
+//    public void onStartup(ServletContext sc) {
+//
+//        AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
+////        root.register(RootConfig.class);
+//        root.register(SecurityConfig.class);
+//        root.register(WebConfig.class);
+//
+//        sc.addListener(new ContextLoaderListener(root));
+////        sc.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+////                .addMappingForUrlPatterns(null, false, "/*");
+//        sc.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"))
 //                .addMappingForUrlPatterns(null, false, "/*");
-        sc.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"))
-                .addMappingForUrlPatterns(null, false, "/*");
-    }
+//    }
 }
