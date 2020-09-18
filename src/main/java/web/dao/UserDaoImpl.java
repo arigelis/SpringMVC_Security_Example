@@ -7,14 +7,12 @@ import web.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-    private final Map<String, User> userMap = Collections.singletonMap("test",
-            new User(1L, "test", "test", Collections.singleton(new Role(1L, "admin")))); // name - уникальное значение, выступает в качестве ключа Map
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -51,17 +49,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByName(String name) {
+        Query userByNameQuery = entityManager.createQuery("from User where name = :name").setParameter("name", name);
 
-        Query result = entityManager.createQuery("from User where name = :name").setParameter("name", name);
-        List<User> usersList = (List<User>) result.getResultList();
-
-        if (!usersList.get(0).getName().equalsIgnoreCase(name)) {
+        User userByName = (User) userByNameQuery.getSingleResult();
+        if (userByName == null) {
+            System.out.println("User not found!");
             return null;
         }
+        Query rolesListByUserId = entityManager.createQuery(
+                "select rs.id,rs.role_name from roles_sec rs, users_roles ur where rs.id = ur.role_id and ur.user_id = :user_id"
+        ).setParameter("user_id", userByName.getId());
+
+        Set<Role> rolesSet = (Set<Role>) rolesListByUserId.getResultList();
 
 
-        usersList.get(0).setRoles(new HashSet<Role>(Arrays.asList(new Role(1L, "user"))));
-        return usersList.get(0);
+        userByName.setRoles(rolesSet);
+        return userByName;
     }
 }
 

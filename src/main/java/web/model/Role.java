@@ -3,16 +3,17 @@ package web.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 // Этот класс реализует интерфейс GrantedAuthority, в котором необходимо переопределить только один метод getAuthority() (возвращает имя роли).
 // Имя роли должно соответствовать шаблону: «ROLE_ИМЯ», например, ROLE_USER.
 @Entity
 @Table(name = "roles_sec")
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority , Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private Integer id;
     @Column(name = "role_name")
     private String role;
 
@@ -20,16 +21,16 @@ public class Role implements GrantedAuthority {
 
     }
 
-    public Role(Long id, String role) {
+    public Role(Integer id, String role) {
         this.id = id;
         this.role = role;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

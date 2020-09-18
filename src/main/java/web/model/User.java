@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users_sec")
-public class User implements UserDetails {
+public class User implements UserDetails , Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -21,8 +22,9 @@ public class User implements UserDetails {
     private String name; // уникальное значение
     @Column
     private String password;
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    //    @OneToMany
+//    @JoinColumn(name = "user_id")
+    @Transient
     private Set<Role> roles;
 
     public User() {
@@ -33,7 +35,7 @@ public class User implements UserDetails {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.roles = roles;
+//        this.roles = roles;
     }
 
     public Long getId() {
