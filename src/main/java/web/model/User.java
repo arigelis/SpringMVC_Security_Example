@@ -25,18 +25,20 @@ public class User implements UserDetails, Serializable {
     //    @OneToMany
 //    @JoinColumn(name = "user_id")
 
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id",
-                    referencedColumnName = "id"
-            )
-    )
-    @OneToMany
+    //    @JoinTable(
+//            name = "user_roles",
+//            joinColumns = @JoinColumn(
+//                    name = "user_id",
+//                    referencedColumnName = "id"
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "role_id",
+//                    referencedColumnName = "id"
+//            )
+//    )
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 //}
 //    @Transient
