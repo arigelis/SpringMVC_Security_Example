@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users_sec")
-public class User implements UserDetails , Serializable{
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -24,8 +24,23 @@ public class User implements UserDetails , Serializable{
     private String password;
     //    @OneToMany
 //    @JoinColumn(name = "user_id")
-    @Transient
+
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id"
+            )
+    )
+    @OneToMany
     private Set<Role> roles;
+//}
+//    @Transient
+//    private Set<Role> roles;
 
     public User() {
 

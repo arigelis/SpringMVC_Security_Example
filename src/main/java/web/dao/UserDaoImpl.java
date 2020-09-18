@@ -49,21 +49,32 @@ public class UserDaoImpl implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByName(String name) {
-        Query userByNameQuery = entityManager.createQuery("from User where name = :name").setParameter("name", name);
+//        Query userByNameQuery = entityManager.createQuery("from User where name = :name").setParameter("name", name);
+//
+//        User userByName = (User) userByNameQuery.getSingleResult();
+//        if (userByName == null) {
+//            System.out.println("User not found!");
+//            return null;
+//        }
+//        Query rolesListByUserId = entityManager.createQuery(
+//                "select rs.id,rs.role_name from roles_sec rs, users_roles ur where rs.id = ur.role_id and ur.user_id = :user_id"
+//        ).setParameter("user_id", userByName.getId());
+//
+//        Set<Role> rolesSet = (Set<Role>) rolesListByUserId.getResultList();
+//
+//
+//        userByName.setRoles(rolesSet);
+//        return userByName;
 
-        User userByName = (User) userByNameQuery.getSingleResult();
-        if (userByName == null) {
-            System.out.println("User not found!");
-            return null;
-        }
-        Query rolesListByUserId = entityManager.createQuery(
-                "select rs.id,rs.role_name from roles_sec rs, users_roles ur where rs.id = ur.role_id and ur.user_id = :user_id"
-        ).setParameter("user_id", userByName.getId());
+        TypedQuery<User> query = entityManager.createQuery("from User where name = :name",User.class).setParameter("name", name);
 
-        Set<Role> rolesSet = (Set<Role>) rolesListByUserId.getResultList();
+        User userByName = query.getSingleResult();
+
+//                Query rolesListByUserId = entityManager.createQuery(
+//                        "select rs.id,rs.role_name from roles_sec rs, users_roles ur where rs.id = ur.role_id and ur.user_id = :user_id"
+//                ).setParameter("user_id", userByName.getId());
 
 
-        userByName.setRoles(rolesSet);
         return userByName;
     }
 }

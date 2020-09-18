@@ -3,7 +3,7 @@
 //
 //import javax.persistence.*;
 //
-//@Entity
+////@Entity
 //@Table(name = "users_roles")
 //public class UsersRoles {
 //    @Column(name = "user_id")
