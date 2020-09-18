@@ -48,6 +48,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @SuppressWarnings("unchecked")
+    @Transactional
     public User getUserByName(String name) {
 //        Query userByNameQuery = entityManager.createQuery("from User where name = :name").setParameter("name", name);
 //
