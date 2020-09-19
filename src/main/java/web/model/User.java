@@ -22,27 +22,14 @@ public class User implements UserDetails, Serializable {
     private String name; // уникальное значение
     @Column
     private String password;
-    //    @OneToMany
-//    @JoinColumn(name = "user_id")
 
-    //    @JoinTable(
-//            name = "user_roles",
-//            joinColumns = @JoinColumn(
-//                    name = "user_id",
-//                    referencedColumnName = "id"
-//            ),
-//            inverseJoinColumns = @JoinColumn(
-//                    name = "role_id",
-//                    referencedColumnName = "id"
-//            )
-//    )
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles;
-//}
-//    @Transient
-//    private Set<Role> roles;
 
     public User() {
 

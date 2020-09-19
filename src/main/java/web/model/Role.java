@@ -18,8 +18,12 @@ public class Role implements GrantedAuthority, Serializable {
     @Column(name = "role_name")
     private String role;
 
-    @Transient
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name="role_id"),
+            inverseJoinColumns = @JoinColumn(name="user_id")
+    )
     private Set<User> users;
 
 
