@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
+
                 //указываем логику обработки при логине
                 .successHandler(new LoginSuccessHandler())
                 // указываем action с формы логина
@@ -56,13 +57,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
+//        http
+//                // делаем страницу регистрации недоступной для авторизированных пользователей
+//                .authorizeRequests()
+//                //страницы аутентификаци доступна всем
+//                .antMatchers("/login").anonymous()
+//                // защищенные URL
+//
+////                .antMatchers("/auth/admin/** ").hasAuthority("admin")
+//
+//                .antMatchers("/user/").hasAnyAuthority("admin", "user")
+////                .antMatchers("/admin/**").hasAnyRole("admin")
+//                .antMatchers("/delete/ ").hasAuthority("admin")
+//                .antMatchers("/edit/ ").hasAuthority("admin")
+//                .antMatchers("/save/ ").hasAuthority("admin")
+//                .antMatchers("/new/ ").hasAuthority("admin")
+//                .antMatchers("/admin/").access("hasAuthority('admin')")
+//                .anyRequest().authenticated();
+
+
         http
-                // делаем страницу регистрации недоступной для авторизированных пользователей
-                .authorizeRequests()
-                //страницы аутентификаци доступна всем
-                .antMatchers("/login").anonymous()
-                // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('admin')").anyRequest().authenticated();
+                .authorizeRequests().antMatchers("/login").anonymous()
+//                .antMatchers("/registration").anonymous()
+                .antMatchers("/admin").access("hasRole('admin')")
+                .antMatchers("/hello").access("hasAnyRole('user')")
+                .anyRequest().authenticated();
     }
 
     @Bean

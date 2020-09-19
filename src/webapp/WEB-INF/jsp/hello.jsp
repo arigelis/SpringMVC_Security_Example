@@ -11,5 +11,6 @@
         <h1 th:text="${msg}"></h1>
     </th:block>
 </div>
+<a href="#" th:href="@{/logout}">Log Out</a>
 </body>
 </html>
