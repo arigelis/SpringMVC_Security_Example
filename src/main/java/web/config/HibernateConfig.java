@@ -48,15 +48,9 @@ public class HibernateConfig {
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-//        em.setJpaProperties(additionalProperties());
 
         return em;
     }
-
-    /*@Bean
-    public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){
-        return entityManagerFactoryBean.getObject();
-    }*/
 
     @Bean
     public EntityManager entityManager(LocalContainerEntityManagerFactoryBean entityManagerFactory){

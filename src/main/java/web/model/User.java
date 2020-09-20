@@ -39,7 +39,6 @@ public class User implements UserDetails, Serializable {
         this.id = id;
         this.name = name;
         this.password = password;
-//        this.roles = roles;
     }
 
     public Long getId() {

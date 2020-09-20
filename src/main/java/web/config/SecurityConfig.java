@@ -2,7 +2,6 @@ package web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,11 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
         this.loginSuccessHandler = loginSuccessHandler;
     }
-
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,31 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
-//        http
-//                // делаем страницу регистрации недоступной для авторизированных пользователей
-//                .authorizeRequests()
-//                //страницы аутентификаци доступна всем
-//                .antMatchers("/login").anonymous()
-//                // защищенные URL
-//
-////                .antMatchers("/auth/admin/** ").hasAuthority("admin")
-//
-//                .antMatchers("/user/").hasAnyAuthority("admin", "user")
-////                .antMatchers("/admin/**").hasAnyRole("admin")
-//                .antMatchers("/delete/ ").hasAuthority("admin")
-//                .antMatchers("/edit/ ").hasAuthority("admin")
-//                .antMatchers("/save/ ").hasAuthority("admin")
-//                .antMatchers("/new/ ").hasAuthority("admin")
-//                .antMatchers("/admin/").access("hasAuthority('admin')")
-//                .anyRequest().authenticated();
-
-
         http
                 .authorizeRequests().antMatchers("/login").anonymous()
-//                .antMatchers("/registration").anonymous()
-                .antMatchers("/admin").access("hasRole('admin')")
                 .antMatchers("/hello").access("hasAnyRole('user')")
-                .anyRequest().authenticated();
+                .antMatchers("/admin/", "/admin").access("hasAuthority('admin')")
+                .antMatchers("/new_user/", "/new_user").access("hasAuthority('admin')")
+                .antMatchers("/edit_user/", "/edit_user").access("hasAuthority('admin')").anyRequest().authenticated();
+
     }
 
     @Bean
